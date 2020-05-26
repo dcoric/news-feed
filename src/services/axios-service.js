@@ -49,7 +49,6 @@ class AxiosService {
       config.url = updateQueryStringParameter(config.url, 'country', selectedCountry.toLocaleLowerCase());
       // config.url = updateQueryStringParameter(config.url, 'apiKey', API_KEY);
       set(config, 'headers.Authorization', `Bearer ${API_KEY}`);
-      console.log('config', config);
       return config;
     });
   }
