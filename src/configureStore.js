@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { indexOf } from 'lodash';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './services/reducers';
@@ -15,7 +14,6 @@ export default function configureStore () {
   const enhancers = [middlewareEnhancer];
   const composedEnhancers = compose(...enhancers);
 
-  const store = createStore(rootReducer, composedEnhancers);
+return createStore(rootReducer, composedEnhancers);
 
-  return store;
 }
