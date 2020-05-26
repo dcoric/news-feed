@@ -9,21 +9,7 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
-if (!('toJSON' in Error.prototype)) {
-  Object.defineProperty(Error.prototype, 'toJSON', {
-    value: function () {
-      var alt = {};
 
-      Object.getOwnPropertyNames(this).forEach(function (key) {
-        alt[key] = this[key];
-      }, this);
-
-      return alt;
-    },
-    configurable: true,
-    writable: true
-  });
-}
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
