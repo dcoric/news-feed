@@ -1,4 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setting up the project
+
+First step is to set `.env` file in app root with current values:
+```
+SKIP_PREFLIGHT_CHECK=true
+SASS_PATH=./node_modules;./src
+HTTPS=true
+PORT=8443
+REACT_APP_API_KEY=ENTER_YOUR_API_KEY_HEY_HERE
+```
+
+*PORT* is optional
+*REACT_APP_API_KEY* can be obtained from [newsapi.org](https://newsapi.org/register)
+
+## Setting dark theme
+
+The application has both a dark and light web theme. Switch within the user interface is left as TODO,
+but it can be manually selected in index.html by changing::
+ 
+ `<body class="theme-light">` to `<body class="theme-dark">`
 
 ## Available Scripts
 
@@ -7,7 +26,7 @@ In the project directory, you can run:
 ### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [https://localhost:8443](https://localhost:8443) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
@@ -25,44 +44,17 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `yarn lint`
 
-### `yarn eject`
+Performs lint check. Lint rules are defined in the github repo [dcoric/eslint-config-groundlink](https://github.com/dcoric/eslint-config-groundlink)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Caching is enabled by default so next lint checking are only running across modified files.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `yarn lint-fix`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This will run check as in `yarn lint` but will auto-fix most of the minor issues like spacings, new lines, missing `;`...
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## API Connections
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+For communication with external API, axios is used. Since newsapi.org does not have CORS setting allowed for localhost/development,
+it is bypassed by using the proxy server: `cors-anywhere.herokuapp.com`

@@ -1,0 +1,50 @@
+@import 'variables';
+@import 'themes';
+
+html {
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.min-height {
+  min-height: 100%;
+}
+
+#root {
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: table;
+  @include themify($themes) {
+    background: themed('background');
+  }
+}
+
+.container {
+  height: 100%;
+  margin: auto;
+  @media screen and (min-width: 600px) {
+    max-width: $container-width;
+  }
+}
