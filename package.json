@@ -14,6 +14,7 @@
     "lint": "eslint src --quiet --cache=true",
     "lint-fix": "eslint src --quiet --fix --cache=true"
   },
+  "license": "MIT",
   "eslintConfig": {
     "extends": "react-app"
   },
