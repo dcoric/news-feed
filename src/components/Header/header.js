@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import HeaderContainer from './headerContainer';
 import HeaderLink from './headerLink';
 import { useTranslation } from 'react-i18next';
@@ -57,8 +58,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  navigationLinks: Array,
-  languageLinks: Array
+  navigationLinks: PropTypes.array,
+  languageLinks: PropTypes.array
 };
 
 export default Header;

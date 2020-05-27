@@ -14,7 +14,6 @@ const TopNewsPage = (props) => {
   const articles = useSelector(state => get(state, 'newsPreviewReducer.data', []));
   const longNameCountry = useSelector(state => get(state, 'newsCountrySourceReducer.longName', []));
   const countrySelector = useSelector(state => get(state, 'newsCountrySourceReducer.data'));
-  console.log('Articles', articles);
   useEffect(() => {
     dispatch(newsActions.fetchTopNews());
   }, [dispatch, countrySelector]);

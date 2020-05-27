@@ -25,7 +25,6 @@ export const setCountryNewsSource = (country) => {
 export const fetchTopNews = () => {
   return dispatch => {
     dispatch({ type: NEWS_PREVIEW_FETCHING });
-    console.log('Calling', NEWS_PREVIEW_FETCHING);
     axiosInstance.get(API_TOP_HEADLINES)
       .then(response => {
         console.log('Response', response);
