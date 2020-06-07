@@ -54,6 +54,14 @@ Caching is enabled by default so next lint checking are only running across modi
 
 This will run check as in `yarn lint` but will auto-fix most of the minor issues like spacings, new lines, missing `;`...
 
+### `yarn storybook`
+
+Starts storybook with components preview
+
+### `yarn build-storybook`
+
+Build storybook as independent application which can be deployed
+
 ## API Connections
 
 For communication with external API, axios is used. Since newsapi.org does not have CORS setting allowed for localhost/development,
