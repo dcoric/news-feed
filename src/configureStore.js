@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './services/reducers';
 
-export default function configureStore () {
+export default function configureStore (preloadedState) {
   const isDevEnvironment = process.env.NODE_ENV === 'development';
   const middlewares = [thunkMiddleware];
   const middlewareEnhancer = isDevEnvironment
@@ -13,7 +13,6 @@ export default function configureStore () {
 
   const enhancers = [middlewareEnhancer];
   const composedEnhancers = compose(...enhancers);
-
-return createStore(rootReducer, composedEnhancers);
-
+  if (preloadedState) return createStore(rootReducer, preloadedState, composedEnhancers);
+  return createStore(rootReducer, composedEnhancers);
 }

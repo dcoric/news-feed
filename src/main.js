@@ -11,7 +11,7 @@ import TopNewsPage from './pages/TopNewsPage';
 import { TOP_NEWS_ROUTE } from './services/routes';
 
 const NewsFeed = () => {
-  const store = configureStore(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+  const store = configureStore();
   return (
     <div>
       <Provider store={store}>
