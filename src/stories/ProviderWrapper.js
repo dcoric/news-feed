@@ -7,14 +7,16 @@ import '../style/page-styles.scss';
 import configureStore from '../configureStore';
 
 const ProviderWrapper = (props) => {
-  const { preloadedState, children } = props;
+  const { preloadedState, children, isDarkTheme } = props;
   const store = configureStore(preloadedState);
   return (
-    <Provider store={store}>
-      <Router>
-        {children}
-      </Router>
-    </Provider>
+    <div className={`theme-${isDarkTheme ? 'dark' : 'light'}`}>
+      <Provider store={store}>
+        <Router>
+          {children}
+        </Router>
+      </Provider>
+    </div>
   );
 };
 

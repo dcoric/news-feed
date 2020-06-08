@@ -1,7 +1,7 @@
 import React from 'react';
 import SmallPreviewContainer from '../../components/SmallPreviewContainer';
 import ProviderWrapper from '../ProviderWrapper';
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 export default {
   title: 'Small Preview Container',
@@ -9,7 +9,7 @@ export default {
   decorators: [withKnobs]
 };
 
-export const SmallPreviewContainerLoading = () => <ProviderWrapper><SmallPreviewContainer /></ProviderWrapper>;
+export const SmallPreviewContainerLoading = () => <ProviderWrapper isDarkTheme={boolean('Dark Theme', false)}><SmallPreviewContainer /></ProviderWrapper>;
 
 export const SmallPreviewContainerLoaded = () => {
   const exampleNews = {
@@ -26,7 +26,7 @@ export const SmallPreviewContainerLoaded = () => {
     content: 'Piers Morgan may have moaned about putting on weight during the coronavirus lockdown, but that didn\'t stop him from enjoying some junk food at the first opportunity. \r\nThe Good Morning Britain host, … [+1474 chars]'
   };
   return (
-    <ProviderWrapper>
+    <ProviderWrapper isDarkTheme={boolean('Dark Theme', false)}>
       <SmallPreviewContainer
         {...exampleNews}
       />
