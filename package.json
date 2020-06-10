@@ -59,6 +59,9 @@
     "@storybook/preset-create-react-app": "3.0.0",
     "@storybook/react": "5.3.19",
     "babel-eslint": "10.1.0",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2",
+    "eslint": "7.1.0",
     "eslint-config-groundlink": "github:dcoric/eslint-config-groundlink#v1.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-config-react-app": "5.2.1",
@@ -75,6 +78,15 @@
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.4",
     "eslint-plugin-standard": "4.0.1",
+    "jest-cli": "26.0.1",
     "redux-devtools-extension": "2.13.8"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "src/*.js",
+      "!src/setupTests.js",
+      "!src/tempPolyfills.js"
+    ]
   }
 }
