@@ -11,6 +11,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage": "react-scripts test --coverage --watchAll=false",
     "lint": "eslint src --quiet --cache=true",
     "lint-fix": "eslint src --quiet --fix --cache=true",
     "storybook": "start-storybook -p 9009 -s public",
@@ -84,9 +85,8 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
-      "src/*.js",
-      "!src/setupTests.js",
-      "!src/tempPolyfills.js"
+      "!src/stories/**",
+      "!src/*.js"
     ]
   }
 }
