@@ -2,7 +2,6 @@
 
 First step is to set `.env` file in app root with current values:
 ```
-SKIP_PREFLIGHT_CHECK=true
 SASS_PATH=./node_modules;./src
 HTTPS=true
 PORT=8443

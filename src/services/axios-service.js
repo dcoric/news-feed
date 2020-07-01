@@ -4,7 +4,7 @@ import { API_KEY, NEWS_COUNTRY } from './constants';
 import { updateQueryStringParameter } from './utils/urlOperations';
 
 // newsapi.org does not allow localhost in cors settings. To bypass this, we are using request proxy:
-const CORS_PROXY_URL = process.env.NODE_ENV === 'development' ? 'https://cors-anywhere.herokuapp.com/' : '';
+const CORS_PROXY_URL = process.env.NODE_ENV === 'development' ? 'https://cors-anywhere.citadel.red/' : '';
 const API_ROUTE = `${CORS_PROXY_URL}https://newsapi.org/v2/`;
 
 // The two 'no-cache' headers below prevent IE from caching AJAX GET requests
