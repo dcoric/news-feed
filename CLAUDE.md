@@ -8,6 +8,13 @@ This is a React-based news feed application built with TypeScript, Redux, and SA
 
 ## Environment Setup
 
+### Node.js Requirements
+This project requires **Node.js 22 LTS** (the latest LTS version). This is the only supported Node.js version.
+
+- Use `nvm use` to automatically switch to the correct version (reads from `.nvmrc`)
+- Or manually install Node.js 22 from [nodejs.org](https://nodejs.org/)
+
+### Environment Variables
 Create a `.env` file in the project root with:
 ```
 SASS_PATH=./node_modules;./src
