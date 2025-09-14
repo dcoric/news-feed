@@ -1,7 +1,7 @@
 import { INITIAL_STATE, NEUTRAL_STATE } from '../constants';
 import { NEWS_PREVIEW_FETCHED, NEWS_PREVIEW_FETCHING } from './types';
 
-export default function (state = { ...INITIAL_STATE }, action) {
+const newsPreviewReducer = (state = { ...INITIAL_STATE }, action) => {
   switch (action.type) {
   case NEWS_PREVIEW_FETCHING:
     return { ...state, ...NEUTRAL_STATE, fetching: true };
@@ -10,4 +10,6 @@ export default function (state = { ...INITIAL_STATE }, action) {
   default:
     return state;
   }
-}
+};
+
+export default newsPreviewReducer;
