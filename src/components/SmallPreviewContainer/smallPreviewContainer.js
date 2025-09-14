@@ -7,10 +7,13 @@ import { URLGenerator } from '../../services/utils/urlGenerator';
 import { READ_MORE_ROUT } from '../../services/routes';
 import { NEWS_ID } from '../../services/constants';
 
-const SmallPreviewContainer = (props) => {
-  const {
-    title, urlToImage, content, url, publishedAt
-  } = props;
+const SmallPreviewContainer = ({
+  title = 'Loading news...',
+  urlToImage = '',
+  content = '',
+  url = '',
+  publishedAt = ''
+}) => {
   // const readMoreUrl = new URLGenerator(READ_MORE_ROUT);
   return (
     <div className='news-preview__container'>
@@ -31,20 +34,12 @@ const SmallPreviewContainer = (props) => {
   );
 };
 
-export default SmallPreviewContainer;
-
-SmallPreviewContainer.defaultProps = {
-  title: 'Loading news...',
-  urlToImage: '',
-  content: '',
-  url: '',
-  publishedAt: ''
-};
-
 SmallPreviewContainer.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   urlToImage: PropTypes.string,
   content: PropTypes.string,
   url: PropTypes.string,
-  publishedAt: PropTypes.string || PropTypes.date
+  publishedAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
 };
+
+export default SmallPreviewContainer;

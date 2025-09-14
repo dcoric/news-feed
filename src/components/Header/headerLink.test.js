@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import HeaderLink from './headerLink';
 
 const LINK_NAME = 'test link name';
@@ -10,44 +11,56 @@ const defaultProps = {
   linkName: LINK_NAME,
   url: TEST_URL,
   float: ELEMENT_FLOAT_VALUE,
-  linkCallback: () => {},
+  linkCallback: jest.fn(),
   active: ACTIVE_VALUE
 };
 
-const headerLink = shallow(<HeaderLink />);
-describe('HeaderLink', () => {
-  describe('Rendering snapshot', () => {
-    it('renders correctly', () => {
-      expect(headerLink).toMatchSnapshot();
-    });
-  });
+const renderWithRouter = (component) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  );
+};
 
+describe('HeaderLink', () => {
   describe('With missing props', () => {
-    it('renders empty div when props are missing', () => {
-      expect(headerLink.find('Link').exists()).toBe(false);
+    it('renders empty div when linkName is missing', () => {
+      const { container } = renderWithRouter(<HeaderLink />);
+      expect(container.firstChild.tagName.toLowerCase()).toBe('div');
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
   });
 
   describe('With default props', () => {
-    beforeEach(() => {
-      headerLink.setProps(defaultProps);
+    it('renders link with correct name', () => {
+      renderWithRouter(<HeaderLink {...defaultProps} />);
+      const link = screen.getByRole('link', { name: LINK_NAME });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveTextContent(LINK_NAME);
     });
 
-    it('it shows correct `link name`', () => {
-      expect(headerLink.find('Link.news-header__header-link').text()).toEqual(LINK_NAME);
+    it('renders link with correct URL', () => {
+      renderWithRouter(<HeaderLink {...defaultProps} />);
+      const link = screen.getByRole('link', { name: LINK_NAME });
+      expect(link).toHaveAttribute('href', `/${TEST_URL}`);
     });
 
-    it('it shows correct `link URL`', () => {
-      expect(headerLink.find('Link.news-header__header-link').prop('to')).toEqual(TEST_URL);
+    it('active link has active class', () => {
+      const { container } = renderWithRouter(<HeaderLink {...defaultProps} />);
+      expect(container.querySelector('.news-header__header-link.active')).toBeInTheDocument();
     });
 
-    it('active link has `active` class', () => {
-      expect(headerLink.find('div.news-header__header-link.active').exists()).toBe(true);
+    it('inactive link does not have active class', () => {
+      const { container } = renderWithRouter(<HeaderLink {...defaultProps} active={false} />);
+      expect(container.querySelector('.news-header__header-link.active')).not.toBeInTheDocument();
+      expect(container.querySelector('.news-header__header-link')).toBeInTheDocument();
     });
 
-    it('inactive link does not have `active` class', () => {
-      headerLink.setProps({ ...defaultProps, active: false });
-      expect(headerLink.find('div.news-header__header-link.active').exists()).toBe(false);
+    it('applies correct float style', () => {
+      const { container } = renderWithRouter(<HeaderLink {...defaultProps} />);
+      const headerDiv = container.querySelector('.news-header__header-link');
+      expect(headerDiv).toHaveStyle(`float: ${ELEMENT_FLOAT_VALUE}`);
     });
   });
 });
