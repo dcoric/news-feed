@@ -21,6 +21,7 @@
     "proxy:install": "cd server && npm install",
     "proxy:dev": "cd server && npm run dev",
     "proxy:start": "cd server && npm start",
+    "proxy:test-cache": "cd server && npm run test-cache",
     "docker:proxy": "docker-compose up proxy-server",
     "docker:dev": "docker-compose --profile full-stack up",
     "docker:build": "docker-compose build",

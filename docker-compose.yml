@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  # Redis Cache Server
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - news-feed-network
+
   # News API Proxy Server
   proxy-server:
     build:
@@ -12,6 +30,10 @@ services:
       - NODE_ENV=development
       - PROXY_PORT=3001
       - ALLOWED_ORIGINS=https://localhost:8443,http://localhost:3000
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1))"]
       interval: 30s
@@ -46,6 +68,9 @@ services:
       - news-feed-network
     profiles:
       - full-stack
+
+volumes:
+  redis_data:
 
 networks:
   news-feed-network:

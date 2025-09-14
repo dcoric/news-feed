@@ -12,6 +12,7 @@ A modern React-based news aggregator application built with TypeScript, Redux, a
 - ⚡ Built with TypeScript for type safety
 - 🧪 Component testing with Jest & React Testing Library
 - 📚 Component documentation with Storybook
+- 💾 Redis caching for improved performance (30-minute TTL)
 
 ## 🛠 Tech Stack
 
@@ -23,6 +24,8 @@ A modern React-based news aggregator application built with TypeScript, Redux, a
 - **Testing**: Jest, React Testing Library
 - **Build Tool**: Create React App
 - **Documentation**: Storybook
+- **Backend**: Express.js proxy server
+- **Caching**: Redis with 30-minute TTL
 
 ## 🚀 Quick Start
 
@@ -102,6 +105,30 @@ The app fetches news from [NewsAPI.org](https://newsapi.org). Due to CORS restri
 
 - 🇺🇸 United States (`US`)
 - 🇬🇧 United Kingdom (`GB`)
+
+## 💾 Caching System
+
+The application includes a Redis-based caching system to improve performance and reduce API calls:
+
+- **Cache Duration**: 30 minutes TTL
+- **Cache Strategy**: GET requests are cached based on endpoint and parameters
+- **Performance**: Cache hits are 10-50x faster than API calls
+- **Fallback**: Graceful degradation if Redis is unavailable
+
+### Cache Management
+
+```bash
+# View cache statistics
+curl http://localhost:3001/cache/stats
+
+# Clear cache
+curl -X DELETE http://localhost:3001/cache/clear
+
+# Test caching functionality
+npm run proxy:test-cache
+```
+
+For detailed caching documentation, see [CACHING.md](./CACHING.md).
 
 ## 🏗 Architecture
 

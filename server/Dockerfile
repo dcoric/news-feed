@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # Copy server code
-COPY server.js ./
+COPY server.js cache-service.js ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
