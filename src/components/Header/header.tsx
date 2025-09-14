@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import HeaderContainer from './headerContainer';
 import HeaderLink from './headerLink';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +9,24 @@ import './header.scss';
 import { FLOAT, NEWS_COUNTRY } from '../../services/constants';
 import { CATEGORIES_ROUTE, SEARCH_ROUTE, TOP_NEWS_ROUTE } from '../../services/routes';
 
-const Header = (props) => {
+interface NavigationLink {
+  name: string;
+  url: string;
+  id: number;
+}
+
+interface LanguageLink {
+  language: string;
+  name: string;
+  short: string;
+}
+
+interface HeaderProps {
+  navigationLinks?: NavigationLink[];
+  languageLinks?: LanguageLink[];
+}
+
+const Header: React.FC<HeaderProps> = (props) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigationLinks = props.navigationLinks || [
@@ -23,8 +39,8 @@ const Header = (props) => {
     { language: 'en-UK', name: 'Great Britain', short: 'GB' }
   ];
   const [currentCountryValue, setCountryValue] = useState('GB');
-  const setCountry = (lng) => {
-    dispatch(setCountryNewsSource(lng));
+  const setCountry = (lng: string) => {
+    dispatch(setCountryNewsSource(lng) as any);
     setCountryValue(lng);
   };
   const currentCountry = sessionStorage.getItem(NEWS_COUNTRY) || currentCountryValue;
@@ -55,11 +71,6 @@ const Header = (props) => {
       )}
     </HeaderContainer>
   );
-};
-
-Header.propTypes = {
-  navigationLinks: PropTypes.array,
-  languageLinks: PropTypes.array
 };
 
 export default Header;

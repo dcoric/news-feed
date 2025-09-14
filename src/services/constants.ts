@@ -9,13 +9,19 @@ export const NEWS_LANGUAGE = 'NEWS_LANGUAGE';
 export const NEWS_COUNTRY = 'NEWS_COUNTRY';
 
 // store states
-export const INITIAL_STATE = {
+export interface StoreState {
+  fetching: boolean;
+  fetched: boolean;
+  error: string | null;
+}
+
+export const INITIAL_STATE: StoreState = {
   fetching: false,
   fetched: false,
   error: null
 };
 
-export const NEUTRAL_STATE = {
+export const NEUTRAL_STATE: StoreState = {
   fetching: false,
   fetched: true,
   error: null

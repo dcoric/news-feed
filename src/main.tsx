@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import './i18n';
 import './style/foundation.scss';
@@ -10,20 +10,16 @@ import configureStore from './configureStore';
 import TopNewsPage from './pages/TopNewsPage';
 import { TOP_NEWS_ROUTE } from './services/routes';
 
-const NewsFeed = () => {
+const NewsFeed: React.FC = () => {
   const store = configureStore();
   return (
     <div>
       <Provider store={store}>
         <Router>
-          <Switch>
-            <Route exact path={TOP_NEWS_ROUTE}>
-              <TopNewsPage />
-            </Route>
-            <Route>
-              <Redirect to={TOP_NEWS_ROUTE} />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path={TOP_NEWS_ROUTE} element={<TopNewsPage />} />
+            <Route path="*" element={<Navigate to={TOP_NEWS_ROUTE} replace />} />
+          </Routes>
         </Router>
       </Provider>
     </div>

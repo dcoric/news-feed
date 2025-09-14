@@ -7,7 +7,7 @@ $themes: (
           'header-secondary-font-color': $header-text-light-secondary,
           'body-title-color': $body-text-light-title,
           'body-text-color': $body-text-light-content,
-          'background': $body-background-light url('/bckg.jpg') no-repeat fixed center,
+          'background': $body-background-light,
           'news-box-background': $news-box-background-light
   ),
   dark: (

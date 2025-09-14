@@ -19,7 +19,10 @@ const defaultOptions = {
 };
 
 class AxiosService {
-  constructor (options) {
+  private axios: any;
+  private static instance: AxiosService;
+
+  constructor (options?: any) {
     if (options) {
       this.axios = axios.create(options);
       this.setInterceptors();
@@ -35,7 +38,7 @@ class AxiosService {
     return AxiosService.instance;
   }
 
-  getStorageItem (name) {
+  getStorageItem (name: string) {
     try {
       return localStorage.getItem(name) || sessionStorage.getItem(name);
     } catch (error) {
@@ -46,14 +49,16 @@ class AxiosService {
   setInterceptors () {
     this.axios.interceptors.request.use((config) => {
       const selectedCountry = sessionStorage.getItem(NEWS_COUNTRY) || 'GB';
-      config.url = updateQueryStringParameter(config.url, 'country', selectedCountry.toLocaleLowerCase());
-      // config.url = updateQueryStringParameter(config.url, 'apiKey', API_KEY);
+      if (config.url) {
+        config.url = updateQueryStringParameter(config.url, 'country', selectedCountry.toLocaleLowerCase());
+        // config.url = updateQueryStringParameter(config.url, 'apiKey', API_KEY);
+      }
       set(config, 'headers.Authorization', `Bearer ${API_KEY}`);
       return config;
     });
   }
 
-  request (async, method, url, params = null, data = null, successCb = null, errorCb = null, headers = null, responseType = null, paramsSerializer = null) {
+  request (async: any, method: any, url: any, params = null, data = null, successCb = null, errorCb = null, headers = null, responseType = null, paramsSerializer = null): any {
     method = method.toLowerCase();
     const request = this.axios.request({
       url,
@@ -67,28 +72,28 @@ class AxiosService {
     return async ? request : request.then(successCb).catch(errorCb);
   }
 
-  get (url, params, successCb = null, errorCb = null, headers = null, paramsSerializer = null, responseType = null) {
+  get (url: any, params: any, successCb = null, errorCb = null, headers = null, paramsSerializer = null, responseType = null): any {
     // if success or error callback is not set will return promise
     const async = !successCb || !errorCb;
     return this.request(async, 'get', url, params, null, successCb, errorCb, headers, responseType, paramsSerializer);
   }
 
-  post (url, data, successCb = null, errorCb = null, headers = null, params = null, paramsSerializer = null, responseType = null) {
+  post (url: any, data: any, successCb = null, errorCb = null, headers = null, params = null, paramsSerializer = null, responseType = null): any {
     const async = !successCb || !errorCb;
     return this.request(async, 'post', url, params, data, successCb, errorCb, headers, responseType, paramsSerializer);
   }
 
-  put (url, data, successCb = null, errorCb = null, headers = null) {
+  put (url: any, data: any, successCb = null, errorCb = null, headers = null): any {
     const async = !successCb || !errorCb;
     return this.request(async, 'put', url, null, data, successCb, errorCb, headers);
   }
 
-  patch (url, data, successCb = null, errorCb = null, headers = null) {
+  patch (url: any, data: any, successCb = null, errorCb = null, headers = null): any {
     const async = !successCb || !errorCb;
     return this.request(async, 'patch', url, null, data, successCb, errorCb, headers);
   }
 
-  delete (url, data = {}, successCb = null, errorCb = null) {
+  delete (url: any, data: any = {}, successCb = null, errorCb = null): any {
     const async = !successCb || !errorCb;
     return this.request(async, 'delete', url, null, data, successCb, errorCb);
   }
