@@ -55,6 +55,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             selected={false}
             key={link.id}
             active={window.location.pathname === link.url}
+            linkCallback={() => {}}
           />
       )}
       {languageLinks.map(

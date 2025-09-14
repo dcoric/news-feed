@@ -22,8 +22,6 @@ describe('newsCountrySourceReducer', () => {
 
     const expectedState = {
       ...INITIAL_STATE,
-      data: 'GB',
-      longName: 'Great Britain',
       ...NEUTRAL_STATE,
       error: undefined,
       data: 'US',
@@ -43,8 +41,6 @@ describe('newsCountrySourceReducer', () => {
 
     const expectedState = {
       ...INITIAL_STATE,
-      data: 'GB',
-      longName: 'Great Britain',
       ...NEUTRAL_STATE,
       error: 'Some error',
       data: 'FR',
