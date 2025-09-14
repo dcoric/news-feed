@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # News API Proxy Server
+  proxy-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PROXY_PORT=3001
+      - ALLOWED_ORIGINS=https://localhost:8443,http://localhost:3000
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - news-feed-network
+
+  # React Development Server (optional - can be run separately)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8443:8443"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - SASS_PATH=./node_modules;./src
+      - HTTPS=true
+      - PORT=8443
+      - REACT_APP_API_KEY=${REACT_APP_API_KEY}
+      - REACT_APP_PROXY_URL=http://proxy-server:3001
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      proxy-server:
+        condition: service_healthy
+    networks:
+      - news-feed-network
+    profiles:
+      - full-stack
+
+networks:
+  news-feed-network:
+    driver: bridge
