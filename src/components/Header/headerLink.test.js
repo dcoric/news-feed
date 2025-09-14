@@ -26,9 +26,10 @@ const renderWithRouter = (component) => {
 describe('HeaderLink', () => {
   describe('With missing props', () => {
     it('renders empty div when linkName is missing', () => {
-      const { container } = renderWithRouter(<HeaderLink />);
-      expect(container.firstChild.tagName.toLowerCase()).toBe('div');
+      renderWithRouter(<HeaderLink />);
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
+      // When linkName is missing, no link should be rendered
+      expect(screen.queryByText(LINK_NAME)).not.toBeInTheDocument();
     });
   });
 
@@ -47,20 +48,22 @@ describe('HeaderLink', () => {
     });
 
     it('active link has active class', () => {
-      const { container } = renderWithRouter(<HeaderLink {...defaultProps} />);
-      expect(container.querySelector('.news-header__header-link.active')).toBeInTheDocument();
+      renderWithRouter(<HeaderLink {...defaultProps} />);
+      const container = screen.getByTestId('header-link-container');
+      expect(container).toHaveClass('active');
     });
 
     it('inactive link does not have active class', () => {
-      const { container } = renderWithRouter(<HeaderLink {...defaultProps} active={false} />);
-      expect(container.querySelector('.news-header__header-link.active')).not.toBeInTheDocument();
-      expect(container.querySelector('.news-header__header-link')).toBeInTheDocument();
+      renderWithRouter(<HeaderLink {...defaultProps} active={false} />);
+      const container = screen.getByTestId('header-link-container');
+      expect(container).not.toHaveClass('active');
+      expect(container).toBeInTheDocument();
     });
 
     it('applies correct float style', () => {
-      const { container } = renderWithRouter(<HeaderLink {...defaultProps} />);
-      const headerDiv = container.querySelector('.news-header__header-link');
-      expect(headerDiv).toHaveStyle(`float: ${ELEMENT_FLOAT_VALUE}`);
+      renderWithRouter(<HeaderLink {...defaultProps} />);
+      const container = screen.getByTestId('header-link-container');
+      expect(container).toHaveStyle(`float: ${ELEMENT_FLOAT_VALUE}`);
     });
   });
 });

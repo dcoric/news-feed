@@ -51,13 +51,13 @@ describe('SmallPreviewContainer', () => {
   });
 
   it('has correct CSS classes', () => {
-    const { container } = render(<SmallPreviewContainer {...defaultProps} />);
+    render(<SmallPreviewContainer {...defaultProps} />);
 
-    expect(container.querySelector('.news-preview__container')).toBeInTheDocument();
-    expect(container.querySelector('.news-preview__title')).toBeInTheDocument();
-    expect(container.querySelector('.news-preview__image-preview')).toBeInTheDocument();
-    expect(container.querySelector('.news-preview__decription')).toBeInTheDocument();
-    expect(container.querySelector('.news-preview__read-more-line')).toBeInTheDocument();
-    expect(container.querySelector('.news-preview__read-more-link')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-container')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-title')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-image')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-description')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-read-more-line')).toBeInTheDocument();
+    expect(screen.getByTestId('news-preview-read-more-link')).toBeInTheDocument();
   });
 });

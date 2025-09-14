@@ -12,7 +12,7 @@ const HeaderLink = ({
 }) => {
   if (!linkName) return <div />;
   return (
-    <div className={`news-header__header-link${active ? ' active' : ''}`} style={{ float: float }}>
+    <div className={`news-header__header-link${active ? ' active' : ''}`} style={{ float: float }} data-testid="header-link-container">
       <Link to={url} className='news-header__header-link' onClick={linkCallback}>
         {linkName}
       </Link>

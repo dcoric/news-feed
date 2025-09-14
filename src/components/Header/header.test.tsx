@@ -116,19 +116,22 @@ describe('Header', () => {
   });
 
   it('marks active navigation link based on current pathname', () => {
-    // Mock current path as /top-news
+    // Mock current path as /top-headlines
     Object.defineProperty(window, 'location', {
       value: {
-        pathname: '/top-news'
+        pathname: '/top-headlines'
       },
       writable: true,
     });
 
-    const { container } = renderWithProviders(<Header />);
+    renderWithProviders(<Header />);
 
-    // Check that the active link has the active class
-    const activeLinks = container.querySelectorAll('.news-header__header-link.active');
-    expect(activeLinks.length).toBeGreaterThan(0);
+    // Check that there is at least one active link container
+    const activeContainers = screen.getAllByTestId('header-link-container');
+    const hasActiveContainer = activeContainers.some(container => 
+      container.classList.contains('active')
+    );
+    expect(hasActiveContainer).toBe(true);
   });
 
   it('reads country from sessionStorage', () => {
