@@ -1,67 +1,190 @@
-## Setting up the project
+# News Feed
 
-First step is to set `.env` file in app root with current values:
+A modern React-based news aggregator application built with TypeScript, Redux, and SASS. Browse the latest news articles from around the world with support for multiple countries and themes.
+
+## ✨ Features
+
+- 📰 Real-time news feed from NewsAPI
+- 🌍 Multi-country support (US, UK)
+- 🎨 Light/Dark theme support
+- 🌐 Internationalization (i18next)
+- 📱 Responsive design
+- ⚡ Built with TypeScript for type safety
+- 🧪 Component testing with Jest & React Testing Library
+- 📚 Component documentation with Storybook
+
+## 🛠 Tech Stack
+
+- **Frontend**: React 18, TypeScript
+- **State Management**: Redux with Redux Thunk
+- **Routing**: React Router v6
+- **Styling**: SASS with theme system
+- **HTTP Client**: Axios
+- **Testing**: Jest, React Testing Library
+- **Build Tool**: Create React App
+- **Documentation**: Storybook
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 16+
+- npm or yarn
+- NewsAPI key from [newsapi.org](https://newsapi.org/register)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd news-feed
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+   > Note: Use `--legacy-peer-deps` to resolve TypeScript version conflicts
+
+3. **Environment setup**
+
+   Create a `.env` file in the project root:
+   ```env
+   SASS_PATH=./node_modules;./src
+   HTTPS=true
+   PORT=8443
+   REACT_APP_API_KEY=your_newsapi_key_here
+   ```
+
+4. **Start development server**
+   ```bash
+   npm start
+   ```
+
+   Open [https://localhost:8443](https://localhost:8443) in your browser.
+
+## 📋 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start development server on port 8443 with HTTPS |
+| `npm run build` | Create production build |
+| `npm test` | Run tests in watch mode |
+| `npm run test-coverage` | Generate test coverage report |
+| `npm run lint` | Run ESLint with caching |
+| `npm run lint-fix` | Auto-fix linting issues |
+| `npm run storybook` | Start Storybook on port 6006 |
+| `npm run build-storybook` | Build Storybook for deployment |
+
+## 🎨 Theme Configuration
+
+The application supports both light and dark themes. Currently, theme switching is manual:
+
+1. Open `public/index.html`
+2. Change the body class:
+   - Light theme: `<body class="theme-light">`
+   - Dark theme: `<body class="theme-dark">`
+
+> 🔧 **TODO**: Implement dynamic theme switching in the UI
+
+## 🌐 API Configuration
+
+### NewsAPI Integration
+
+The app fetches news from [NewsAPI.org](https://newsapi.org). Due to CORS restrictions in development:
+
+- **Development**: Uses CORS proxy (`cors-anywhere.citadel.red`)
+- **Production**: Direct API calls
+- **Authentication**: API key automatically added to requests
+- **Country Support**: Automatically filters news by selected country
+
+### Supported Countries
+
+- 🇺🇸 United States (`US`)
+- 🇬🇧 United Kingdom (`GB`)
+
+## 🏗 Architecture
+
+### State Management
+- **Redux Store**: Centralized state management
+- **Reducers**:
+  - `newsPreviewReducer`: Article data and loading states
+  - `newsCountrySourceReducer`: Country selection and localization
+
+### Component Structure
 ```
-SASS_PATH=./node_modules;./src
-HTTPS=true
-PORT=8443
-REACT_APP_API_KEY=ENTER_YOUR_API_KEY_HEY_HERE
+src/
+├── components/          # Reusable UI components
+├── pages/              # Route-level components
+├── services/           # API, actions, reducers
+├── style/              # SASS themes and variables
+└── i18n/              # Internationalization files
 ```
 
-*PORT* is optional
-*REACT_APP_API_KEY* can be obtained from [newsapi.org](https://newsapi.org/register)
+## 🧪 Testing
 
-## Setting dark theme
+Run the full test suite:
+```bash
+npm test
+```
 
-The application has both a dark and light web theme. Switch within the user interface is left as TODO,
-but it can be manually selected in index.html by changing::
- 
- `<body class="theme-light">` to `<body class="theme-dark">`
+Generate coverage report:
+```bash
+npm run test-coverage
+```
 
-## Available Scripts
+Run specific test:
+```bash
+npm test -- --testNamePattern="ComponentName"
+```
 
-In the project directory, you can run:
+## 📚 Component Documentation
 
-### `yarn start`
+Start Storybook to view component documentation:
+```bash
+npm run storybook
+```
 
-Runs the app in the development mode.<br />
-Open [https://localhost:8443](https://localhost:8443) to view it in the browser.
+Build Storybook for deployment:
+```bash
+npm run build-storybook
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## 🚀 Deployment
 
-### `yarn test`
+1. **Build the application**
+   ```bash
+   npm run build
+   ```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Deploy the `build` folder** to your hosting service
 
-### `yarn build`
+3. **Environment variables**: Ensure `REACT_APP_API_KEY` is set in production
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠 Development Notes
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Known Issues
+- Development server may fail due to ajv dependency conflicts
+- Use `npm install --legacy-peer-deps` when installing packages
+- SASS deprecation warnings are expected (legacy API usage)
 
-### `yarn lint`
+### TypeScript Configuration
+- Non-strict mode for easier migration
+- Supports both `.ts` and `.tsx` files
+- Type definitions included for all major dependencies
 
-Performs lint check. Lint rules are defined in the github repo [dcoric/eslint-config-groundlink](https://github.com/dcoric/eslint-config-groundlink)
+## 📄 License
 
-Caching is enabled by default so next lint checking are only running across modified files.
+This project is licensed under the MIT License.
 
-### `yarn lint-fix`
+## 🤝 Contributing
 
-This will run check as in `yarn lint` but will auto-fix most of the minor issues like spacings, new lines, missing `;`...
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### `yarn storybook`
+---
 
-Starts storybook with components preview
-
-### `yarn build-storybook`
-
-Build storybook as independent application which can be deployed
-
-## API Connections
-
-For communication with external API, axios is used. Since newsapi.org does not have CORS setting allowed for localhost/development,
-it is bypassed by using the proxy server: `cors-anywhere.herokuapp.com`
+Built with ❤️ using React and TypeScript
