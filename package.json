@@ -15,6 +15,7 @@
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "lint": "eslint src --quiet --cache=true",
     "lint-fix": "eslint src --quiet --fix --cache=true",
+    "test-ci": "bash scripts/test-ci.sh",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
