@@ -43,7 +43,7 @@ const mockStore = createStore((state = {
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
     <Provider store={mockStore}>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         {component}
       </BrowserRouter>
     </Provider>

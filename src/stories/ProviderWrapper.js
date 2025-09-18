@@ -12,7 +12,7 @@ const ProviderWrapper = (props) => {
   return (
     <div className={`theme-${isDarkTheme ? 'dark' : 'light'}`}>
       <Provider store={store}>
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           {children}
         </Router>
       </Provider>
