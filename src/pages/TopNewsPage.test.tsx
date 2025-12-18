@@ -1,9 +1,9 @@
-import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import TopNewsPage from './TopNewsPage';
 import * as newsActions from '../services/actions/newsActions';
+import TopNewsPage from './TopNewsPage';
 
 // Mock the newsActions module
 jest.mock('../services/actions/newsActions', () => ({
@@ -204,8 +204,8 @@ describe('TopNewsPage', () => {
 
     await waitFor(() => {
       expect(fetchTopNewsMock).toHaveBeenCalledTimes(2);
-      expect(screen.getByText('Top news from United States')).toBeInTheDocument();
     });
+    expect(screen.getByText('Top news from United States')).toBeInTheDocument();
   });
 
   it('handles undefined articles gracefully', () => {

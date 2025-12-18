@@ -34,7 +34,7 @@ fi
 # Step 3: Run tests with coverage
 echo ""
 echo "🧪 Running tests with coverage..."
-npm run test-coverage
+npm run test:coverage
 echo "✅ Tests completed"
 
 # Step 4: Build project
