@@ -73,7 +73,7 @@ A modern React-based news aggregator application built with TypeScript, Redux, a
 | `npm start` | Start development server on port 8443 with HTTPS |
 | `npm run build` | Create production build |
 | `npm test` | Run tests in watch mode |
-| `npm run test-coverage` | Generate test coverage report |
+| `npm run test:coverage` | Generate test coverage report |
 | `npm run lint` | Run ESLint with caching |
 | `npm run lint-fix` | Auto-fix linting issues |
 | `npm run storybook` | Start Storybook on port 6006 |
@@ -157,7 +157,7 @@ npm test
 
 Generate coverage report:
 ```bash
-npm run test-coverage
+npm run test:coverage
 ```
 
 Run specific test:

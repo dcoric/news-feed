@@ -49,7 +49,7 @@ npm start
 ### Testing
 
 ```bash
-npm run test-coverage
+npm run test:coverage
 ```
 
 ### Linting

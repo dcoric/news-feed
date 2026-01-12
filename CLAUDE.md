@@ -31,7 +31,7 @@ The `REACT_APP_API_KEY` should be obtained from [newsapi.org](https://newsapi.or
 - `npm start` - Start development server (runs on port 8443 with HTTPS)
 - `npm run build` - Create production build
 - `npm test` - Run tests in watch mode
-- `npm run test-coverage` - Generate test coverage report
+- `npm run test:coverage` - Generate test coverage report
 - `npm run lint` - Run ESLint with caching
 - `npm run lint-fix` - Auto-fix linting issues
 - `npm run storybook` - Start Storybook on port 6006

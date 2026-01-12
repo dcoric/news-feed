@@ -34,7 +34,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests with coverage
-        run: npm run test-coverage
+        run: npm run test:coverage
 
       - name: Upload coverage to Codecov
         if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'

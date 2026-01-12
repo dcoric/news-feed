@@ -47,5 +47,5 @@ jobs:
         run: |
           echo "Testing npm scripts..."
           npm run lint --dry-run 2>/dev/null || echo "Lint script exists"
-          npm run test-coverage --dry-run 2>/dev/null || echo "Test coverage script exists"
+          npm run test:coverage --dry-run 2>/dev/null || echo "Test coverage script exists"
           npm run build --dry-run 2>/dev/null || echo "Build script exists"

@@ -19,7 +19,7 @@ This project uses GitHub Actions for continuous integration and automated testin
   2. Setup Node.js with npm cache
   3. Install dependencies (`npm ci`)
   4. Run linting (`npm run lint`)
-  5. Run tests with coverage (`npm run test-coverage`)
+  5. Run tests with coverage (`npm run test:coverage`)
   6. Upload coverage to Codecov
   7. Comment coverage on PRs
 
@@ -62,7 +62,7 @@ To test the CI workflow locally:
 # Run the same commands as CI
 npm ci
 npm run lint
-npm run test-coverage
+npm run test:coverage
 npm run build
 ```
 
@@ -78,7 +78,7 @@ npm run build
 
 ### Common Issues
 
-1. **Tests failing**: Check that all tests pass locally with `npm run test-coverage`
+1. **Tests failing**: Check that all tests pass locally with `npm run test:coverage`
 2. **Linting errors**: Run `npm run lint-fix` to auto-fix issues
 3. **Build failures**: Ensure `npm run build` works locally
 4. **Coverage upload failures**: Check Codecov configuration and secrets
