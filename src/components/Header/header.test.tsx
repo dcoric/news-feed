@@ -53,13 +53,7 @@ const renderWithProviders = (component: React.ReactElement) => {
 describe('Header', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    // Mock window.location.pathname
-    Object.defineProperty(window, 'location', {
-      value: {
-        pathname: '/'
-      },
-      writable: true,
-    });
+    window.history.pushState({}, '', '/');
   });
 
   it('renders with default navigation links', () => {
@@ -116,13 +110,7 @@ describe('Header', () => {
   });
 
   it('marks active navigation link based on current pathname', () => {
-    // Mock current path as /top-headlines
-    Object.defineProperty(window, 'location', {
-      value: {
-        pathname: '/top-headlines'
-      },
-      writable: true,
-    });
+    window.history.pushState({}, '', '/top-headlines');
 
     renderWithProviders(<Header />);
 

@@ -1,4 +1,6 @@
-export const API_KEY = process.env.REACT_APP_API_KEY;
+import { VITE_API_KEY } from './env';
+
+export const API_KEY = VITE_API_KEY;
 
 // Route parameters
 export const NEWS_ID = 'NEWS_ID';
