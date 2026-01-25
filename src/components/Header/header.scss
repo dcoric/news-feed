@@ -1,5 +1,5 @@
-@import '../../style/variables';
-@import '../../style/themes';
+@use '../../style/variables' as *;
+@use '../../style/themes' as *;
 
 .news-header {
   @include themify($themes) {
