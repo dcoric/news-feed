@@ -72,7 +72,7 @@
     "@types/axios": "^0.14.4",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.23",
-    "@types/node": "^24.10.9",
+    "@types/node": "^24.10.10",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@types/redux-devtools-extension": "^2.13.2",
