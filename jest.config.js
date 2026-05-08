@@ -1,18 +1,23 @@
 module.exports = {
+  roots: ['<rootDir>/src'],
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/main.tsx',
+  ],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+  moduleNameMapper: {
+    '\\.(css|scss)$': '<rootDir>/src/__mocks__/styleMock.js',
+    '^lodash$': '<rootDir>/node_modules/lodash',
+    '@/(.*)$': '<rootDir>/src/$1',
+  },
   transform: {
-    '^.+\\.(ts|tsx|js|jsx)$': [
+    '^.+\\.(ts|tsx)$': [
       'ts-jest',
       {
         tsconfig: 'tsconfig.jest.json',
       },
     ],
   },
-  moduleNameMapper: {
-    '^\\./env$': '<rootDir>/src/services/__mocks__/env.ts',
-    '\\.(css|scss)$': '<rootDir>/test/styleMock.js',
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/*.{js,ts}'],
 };

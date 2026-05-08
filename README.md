@@ -22,7 +22,7 @@ A modern React-based news aggregator application built with TypeScript, Redux, a
 - **Styling**: SASS with theme system
 - **HTTP Client**: Axios
 - **Testing**: Jest, React Testing Library
-- **Build Tool**: Create React App
+- **Build Tool**: Vite
 - **Documentation**: Storybook
 - **Backend**: Express.js proxy server
 - **Caching**: Redis with 30-minute TTL
@@ -31,7 +31,7 @@ A modern React-based news aggregator application built with TypeScript, Redux, a
 
 ### Prerequisites
 
-- Node.js 16+
+- Node.js 22 LTS (required)
 - npm or yarn
 - NewsAPI key from [newsapi.org](https://newsapi.org/register)
 
@@ -191,12 +191,11 @@ npm run build-storybook
 ## 🛠 Development Notes
 
 ### Known Issues
-- Development server may fail due to ajv dependency conflicts
-- Use `npm install --legacy-peer-deps` when installing packages
 - SASS deprecation warnings are expected (legacy API usage)
+- CORS proxy required in development for NewsAPI
 
 ### TypeScript Configuration
-- Non-strict mode for easier migration
+- Non-strict mode for easier migration (`"strict": false`)
 - Supports both `.ts` and `.tsx` files
 - Type definitions included for all major dependencies
 
