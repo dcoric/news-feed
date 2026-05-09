@@ -5,17 +5,7 @@ import SmallPreviewContainer from '../components/SmallPreviewContainer';
 import Header from '../components/Header';
 
 import { useNewsPreviewStore, useNewsCountrySourceStore } from '../services/store';
-
-interface Article {
-  url: string;
-  title: string;
-  description: string;
-  urlToImage: string;
-  publishedAt: string;
-  source: {
-    name: string;
-  };
-}
+import { Article } from '../services/types/news.types';
 
 const TopNewsPage: React.FC = () => {
   const { t } = useTranslation();
