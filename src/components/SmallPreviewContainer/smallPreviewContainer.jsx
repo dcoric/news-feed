@@ -21,14 +21,14 @@ const SmallPreviewContainer = ({
         <h2>{title}</h2>
       </div>
       <div className='news-preview__image-preview' data-testid="news-preview-image">
-        <img alt={title} src={urlToImage} />
+        {urlToImage && <img alt={title} src={urlToImage} />}
       </div>
       <div className='news-preview__decription' data-testid="news-preview-description">
         {content}
       </div>
       <hr className='news-preview__read-more-line' data-testid="news-preview-read-more-line" />
       <div className='news-preview__read-more-link' data-testid="news-preview-read-more-link">
-        <a href={url} target='_blank'>Read more...</a>
+        <a href={url || '#'} target='_blank'>Read more...</a>
       </div>
     </div>
   );
