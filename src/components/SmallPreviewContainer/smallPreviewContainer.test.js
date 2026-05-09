@@ -43,11 +43,11 @@ describe('SmallPreviewContainer', () => {
     expect(screen.getByRole('heading', { name: partialProps.title })).toBeInTheDocument();
     expect(screen.getByText(partialProps.content)).toBeInTheDocument();
 
-    const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', '');
+    const image = screen.queryByRole('img');
+    expect(image).not.toBeInTheDocument();
 
     const readMoreLink = screen.getByRole('link', { name: 'Read more...' });
-    expect(readMoreLink).toHaveAttribute('href', '');
+    expect(readMoreLink).toHaveAttribute('href', '#');
   });
 
   it('has correct CSS classes', () => {
