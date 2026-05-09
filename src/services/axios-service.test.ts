@@ -94,6 +94,18 @@ describe('AxiosService', () => {
     expect(mockRequest).toHaveBeenCalledTimes(4);
   });
 
+  it('should set Authorization header even without url', async () => {
+    const mockRequest = jest.fn().mockResolvedValue('ok');
+    service['axios'].request = mockRequest;
+    service['axios'].interceptors.request.use = jest.fn((callback) => {
+      const config = { headers: {} };
+      callback(config);
+    });
+
+    await service.get(undefined as any, {});
+    expect(mockRequest).toHaveBeenCalled();
+  });
+
   it('should export a frozen singleton', () => {
     expect(Object.isFrozen(axiosInstance)).toBe(true);
   });
