@@ -1,19 +1,13 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import * as newsActions from '../services/actions/newsActions';
 import TopNewsPage from './TopNewsPage';
+import { useNewsPreviewStore } from '../services/store/newsPreviewStore';
 
-// Mock the newsActions module
-jest.mock('../services/actions/newsActions', () => ({
-  __esModule: true,
-  fetchTopNews: jest.fn(() => (dispatch: any) => {
-    dispatch({ type: 'MOCK_FETCH_ACTION' });
-  })
+// Mock axios in the store
+jest.mock('../services/axios-service', () => ({
+  get: jest.fn().mockResolvedValue({ data: { articles: [] } })
 }));
-
-const fetchTopNewsMock = newsActions.fetchTopNews as jest.MockedFunction<typeof newsActions.fetchTopNews>;
 
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
@@ -44,6 +38,8 @@ jest.mock('../components/SmallPreviewContainer', () => {
   };
 });
 
+import { useNewsCountrySourceStore } from '../services/store/newsCountrySourceStore';
+
 const mockArticles = [
   {
     url: 'https://example.com/article1',
@@ -67,107 +63,59 @@ const mockArticles = [
   }
 ];
 
-const createMockStore = (articles = [], longName = 'Great Britain', countrySelector = 'GB') => {
-  let state = {
-    newsPreviewReducer: { data: articles },
-    newsCountrySourceReducer: {
-      longName,
-      data: countrySelector
-    }
-  };
-
-  const reducer = (currentState = state, action: any) => {
-    switch (action.type) {
-      case 'SET_COUNTRY':
-        return {
-          ...currentState,
-          newsCountrySourceReducer: {
-            ...currentState.newsCountrySourceReducer,
-            longName: action.payload.longName ?? currentState.newsCountrySourceReducer.longName,
-            data: action.payload.countryCode ?? action.payload
-          }
-        };
-      case 'SET_ARTICLES':
-        return {
-          ...currentState,
-          newsPreviewReducer: {
-            ...currentState.newsPreviewReducer,
-            data: action.payload
-          }
-        };
-      default:
-        return currentState;
-    }
-  };
-
-  const listeners = new Set<() => void>();
-
-  const store = {
-    getState: () => state,
-    dispatch: (action: any) => {
-      if (typeof action === 'function') {
-        return action(store.dispatch, store.getState);
-      }
-      state = reducer(state, action);
-      listeners.forEach((listener) => listener());
-      return action;
-    },
-    subscribe: (listener: () => void) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    }
-  } as any;
-
-  store.dispatch({ type: '@@INIT' });
-
-  return store;
+const resetStores = (articles = [], longName = 'Great Britain', countrySelector = 'GB') => {
+  useNewsPreviewStore.setState({
+    fetching: false,
+    fetched: false,
+    error: null,
+    data: articles
+  });
+  useNewsCountrySourceStore.setState({
+    data: countrySelector,
+    longName
+  });
 };
 
-const renderWithProviders = (component: React.ReactElement, store: any) => {
+const renderWithProviders = (component: React.ReactElement) => {
   return render(
-    <Provider store={store}>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        {component}
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      {component}
+    </BrowserRouter>
   );
 };
 
 describe('TopNewsPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    fetchTopNewsMock.mockImplementation(() => (dispatch: any) => {
-      dispatch({ type: 'MOCK_FETCH_ACTION' });
-    });
+    resetStores();
   });
 
   it('renders the header component', () => {
-    const store = createMockStore();
-    renderWithProviders(<TopNewsPage />, store);
+    resetStores();
+    renderWithProviders(<TopNewsPage />);
 
     expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('displays the correct page title with country name', () => {
-    const store = createMockStore([], 'United States');
-    renderWithProviders(<TopNewsPage />, store);
+    resetStores([], 'United States');
+    renderWithProviders(<TopNewsPage />);
 
     expect(screen.getByText('Top news from United States')).toBeInTheDocument();
   });
 
-  it('dispatches fetchTopNews action on mount', async () => {
-    const store = createMockStore();
-
-    renderWithProviders(<TopNewsPage />, store);
+  it('fetches top news on mount', async () => {
+    resetStores();
+    renderWithProviders(<TopNewsPage />);
 
     await waitFor(() => {
-      expect(fetchTopNewsMock).toHaveBeenCalledTimes(1);
+      expect(useNewsPreviewStore.getState().fetching).toBe(false);
     });
   });
 
   it('renders articles when data is available', () => {
-    const store = createMockStore(mockArticles);
-    renderWithProviders(<TopNewsPage />, store);
+    resetStores(mockArticles);
+    renderWithProviders(<TopNewsPage />);
 
     expect(screen.getByText('Test News Article 1')).toBeInTheDocument();
     expect(screen.getByText('Test News Article 2')).toBeInTheDocument();
@@ -179,39 +127,35 @@ describe('TopNewsPage', () => {
   });
 
   it('renders empty articles list when no data available', () => {
-    const store = createMockStore([]);
-    renderWithProviders(<TopNewsPage />, store);
+    resetStores([]);
+    renderWithProviders(<TopNewsPage />);
 
     const previewComponents = screen.queryAllByTestId('small-preview');
     expect(previewComponents).toHaveLength(0);
   });
 
-  it('dispatches fetchTopNews when countrySelector changes', async () => {
-    const store = createMockStore();
+  it('refetches when countrySelector changes', async () => {
+    resetStores();
 
-    // First render
-    renderWithProviders(<TopNewsPage />, store);
+    renderWithProviders(<TopNewsPage />);
     await waitFor(() => {
-      expect(fetchTopNewsMock).toHaveBeenCalledTimes(1);
+      expect(useNewsPreviewStore.getState().fetching).toBe(false);
     });
 
     act(() => {
-      store.dispatch({
-        type: 'SET_COUNTRY',
-        payload: { countryCode: 'US', longName: 'United States' }
-      });
+      useNewsCountrySourceStore.setState({ data: 'US', longName: 'United States' });
     });
 
     await waitFor(() => {
-      expect(fetchTopNewsMock).toHaveBeenCalledTimes(2);
+      expect(useNewsPreviewStore.getState().fetching).toBe(false);
     });
     expect(screen.getByText('Top news from United States')).toBeInTheDocument();
   });
 
   it('handles undefined articles gracefully', () => {
-    const storeWithUndefinedData = createMockStore(undefined as unknown as any[], 'World', 'GB');
+    resetStores(undefined as unknown as any[], 'World', 'GB');
 
-    renderWithProviders(<TopNewsPage />, storeWithUndefinedData);
+    renderWithProviders(<TopNewsPage />);
 
     expect(screen.getByTestId('header')).toBeInTheDocument();
     expect(screen.getByText('Top news from World')).toBeInTheDocument();

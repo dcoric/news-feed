@@ -8,15 +8,11 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-    sass: {
-      includePaths: ['node_modules', 'src'],
-    },
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "./src/style/variables.scss";`,
-        includePaths: ['node_modules', 'src'],
+        includePaths: ['node_modules', 'src', 'src/style'],
       },
     },
   },

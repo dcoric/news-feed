@@ -22,6 +22,8 @@ $themes: (
   )
 );
 
+$theme-map: null;
+
 @mixin themify($themes) {
   @each $theme, $map in $themes {
     .theme-#{$theme} & {
@@ -31,7 +33,7 @@ $themes: (
         $theme-map: map.merge($theme-map, ($key: $value)) !global;
       }
       @content;
-      $theme-map: null !global;
+$theme-map: null;
     }
   }
 }
