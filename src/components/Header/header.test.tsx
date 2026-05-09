@@ -1,18 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import Header from './header';
-import * as newsActions from '../../services/actions/newsActions';
-
-// Mock the newsActions module
-jest.mock('../../services/actions/newsActions', () => ({
-  setCountryNewsSource: jest.fn(() => (dispatch: any) => {
-    dispatch({ type: 'MOCK_SET_COUNTRY_ACTION' });
-  })
-}));
 
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
@@ -35,18 +24,27 @@ Object.defineProperty(window, 'sessionStorage', {
   writable: true,
 });
 
-const mockStore = createStore((state = {
-  newsPreviewReducer: { data: [] },
-  newsCountrySourceReducer: { data: 'GB', longName: 'Great Britain' }
-}) => state, applyMiddleware(thunk));
+import { useNewsCountrySourceStore } from '../../services/store/newsCountrySourceStore';
+import { useNewsPreviewStore } from '../../services/store/newsPreviewStore';
+
+const resetStores = () => {
+  useNewsPreviewStore.setState({
+    fetching: false,
+    fetched: false,
+    error: null,
+    data: []
+  });
+  useNewsCountrySourceStore.setState({
+    data: 'GB',
+    longName: 'Great Britain'
+  });
+};
 
 const renderWithProviders = (component: React.ReactElement) => {
   return render(
-    <Provider store={mockStore}>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        {component}
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      {component}
+    </BrowserRouter>
   );
 };
 
@@ -54,6 +52,7 @@ describe('Header', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     window.history.pushState({}, '', '/');
+    resetStores();
   });
 
   it('renders with default navigation links', () => {
@@ -99,14 +98,10 @@ describe('Header', () => {
   });
 
   it.skip('dispatches setCountryNewsSource action when language link is clicked', () => {
-    const setCountryNewsSourceMock = newsActions.setCountryNewsSource as jest.MockedFunction<typeof newsActions.setCountryNewsSource>;
-
     renderWithProviders(<Header />);
 
     const usLink = screen.getByRole('link', { name: 'US' });
     fireEvent.click(usLink);
-
-    expect(setCountryNewsSourceMock).toHaveBeenCalledWith('US');
   });
 
   it('marks active navigation link based on current pathname', () => {
@@ -116,7 +111,7 @@ describe('Header', () => {
 
     // Check that there is at least one active link container
     const activeContainers = screen.getAllByTestId('header-link-container');
-    const hasActiveContainer = activeContainers.some(container => 
+    const hasActiveContainer = activeContainers.some(container =>
       container.classList.contains('active')
     );
     expect(hasActiveContainer).toBe(true);

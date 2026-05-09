@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import HeaderContainer from './headerContainer';
 import HeaderLink from './headerLink';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { setCountryNewsSource } from '../../services/actions/newsActions';
+import { useNewsCountrySourceStore } from '../../services/store';
 
 import './header.scss';
 import { FLOAT, NEWS_COUNTRY } from '../../services/constants';
@@ -28,7 +27,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = (props) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const setCountryStore = useNewsCountrySourceStore((state) => state.setCountry);
   const navigationLinks = props.navigationLinks || [
     { name: t('Top news'), url: TOP_NEWS_ROUTE, id: 0 },
     { name: t('Categories'), url: CATEGORIES_ROUTE, id: 1 },
@@ -40,7 +39,7 @@ const Header: React.FC<HeaderProps> = (props) => {
   ];
   const [currentCountryValue, setCountryValue] = useState('GB');
   const setCountry = (lng: string) => {
-    dispatch(setCountryNewsSource(lng) as any);
+    setCountryStore(lng);
     setCountryValue(lng);
   };
   const currentCountry = sessionStorage.getItem(NEWS_COUNTRY) || currentCountryValue;

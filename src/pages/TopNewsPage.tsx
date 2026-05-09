@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { get } from 'lodash';
 
 import SmallPreviewContainer from '../components/SmallPreviewContainer';
 import Header from '../components/Header';
 
-import * as newsActions from '../services/actions/newsActions';
+import { useNewsPreviewStore, useNewsCountrySourceStore } from '../services/store';
 
 interface Article {
   url: string;
@@ -21,13 +19,13 @@ interface Article {
 
 const TopNewsPage: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const articles = useSelector((state: any) => get(state, 'newsPreviewReducer.data', []));
-  const longNameCountry = useSelector((state: any) => get(state, 'newsCountrySourceReducer.longName', ''));
-  const countrySelector = useSelector((state: any) => get(state, 'newsCountrySourceReducer.data'));
+  const fetchTopNews = useNewsPreviewStore((state) => state.fetchTopNews);
+  const articles = useNewsPreviewStore((state) => state.data);
+  const longNameCountry = useNewsCountrySourceStore((state) => state.longName);
+  const countrySelector = useNewsCountrySourceStore((state) => state.data);
   useEffect(() => {
-    dispatch(newsActions.fetchTopNews() as any);
-  }, [dispatch, countrySelector]);
+    fetchTopNews();
+  }, [fetchTopNews, countrySelector]);
 
   return (
     <React.Fragment>
