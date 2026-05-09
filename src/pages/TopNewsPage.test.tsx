@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import TopNewsPage from './TopNewsPage';
 import { useNewsPreviewStore } from '../services/store/newsPreviewStore';
 
+import { useNewsCountrySourceStore } from '../services/store/newsCountrySourceStore';
+
 // Mock axios in the store
 jest.mock('../services/axios-service', () => ({
   get: jest.fn().mockResolvedValue({ data: { articles: [] } })
@@ -37,8 +39,6 @@ jest.mock('../components/SmallPreviewContainer', () => {
     );
   };
 });
-
-import { useNewsCountrySourceStore } from '../services/store/newsCountrySourceStore';
 
 const mockArticles = [
   {

@@ -3,6 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './header';
 
+import { useNewsCountrySourceStore } from '../../services/store/newsCountrySourceStore';
+import { useNewsPreviewStore } from '../../services/store/newsPreviewStore';
+
 // Mock react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -23,9 +26,6 @@ Object.defineProperty(window, 'sessionStorage', {
   },
   writable: true,
 });
-
-import { useNewsCountrySourceStore } from '../../services/store/newsCountrySourceStore';
-import { useNewsPreviewStore } from '../../services/store/newsPreviewStore';
 
 const resetStores = () => {
   useNewsPreviewStore.setState({
