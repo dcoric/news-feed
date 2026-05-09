@@ -65,6 +65,19 @@ describe('newsPreviewStore', () => {
     expect(state.data).toEqual([]);
   });
 
+  it('sets fetched state with no arguments', () => {
+    useNewsPreviewStore.setState({ fetching: true, fetched: false, error: 'old error', data: [{ title: 'old', url: 'http://example.com', description: 'desc', urlToImage: 'http://img.com', publishedAt: '2024-01-01', source: { name: 'Source' } }] });
+
+    const store = useNewsPreviewStore.getState();
+    store.setFetched();
+
+    const state = useNewsPreviewStore.getState();
+    expect(state.fetching).toBe(false);
+    expect(state.fetched).toBe(true);
+    expect(state.error).toBe(null);
+    expect(state.data).toEqual([]);
+  });
+
   it('fetches top news successfully', async () => {
     const mockArticles = [
       { title: 'Test News 1', url: 'http://example.com/1', description: 'Desc 1', urlToImage: 'http://img.com/1', publishedAt: '2024-01-01', source: { name: 'Source 1' } },
