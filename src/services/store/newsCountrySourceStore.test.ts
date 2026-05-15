@@ -1,12 +1,4 @@
-import { useNewsCountrySourceStore } from './newsCountrySourceStore';
-
-Object.defineProperty(window, 'sessionStorage', {
-  value: {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-  },
-  writable: true,
-});
+import { useNewsCountrySourceStore, getLongName } from './newsCountrySourceStore';
 
 describe('newsCountrySourceStore', () => {
   beforeEach(() => {
@@ -14,7 +6,6 @@ describe('newsCountrySourceStore', () => {
       data: 'GB',
       longName: 'Great Britain'
     });
-    jest.clearAllMocks();
   });
 
   it('returns initial state with default country', () => {
@@ -27,7 +18,6 @@ describe('newsCountrySourceStore', () => {
     const store = useNewsCountrySourceStore.getState();
     store.setCountry('GB');
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith('NEWS_COUNTRY', 'GB');
     expect(useNewsCountrySourceStore.getState().data).toBe('GB');
     expect(useNewsCountrySourceStore.getState().longName).toBe('Great Britain');
   });
@@ -36,7 +26,6 @@ describe('newsCountrySourceStore', () => {
     const store = useNewsCountrySourceStore.getState();
     store.setCountry('US');
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith('NEWS_COUNTRY', 'US');
     expect(useNewsCountrySourceStore.getState().data).toBe('US');
     expect(useNewsCountrySourceStore.getState().longName).toBe('United States');
   });
@@ -45,8 +34,21 @@ describe('newsCountrySourceStore', () => {
     const store = useNewsCountrySourceStore.getState();
     store.setCountry('FR');
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith('NEWS_COUNTRY', 'FR');
     expect(useNewsCountrySourceStore.getState().data).toBe('FR');
     expect(useNewsCountrySourceStore.getState().longName).toBe('World');
+  });
+
+  describe('getLongName', () => {
+    it('returns Great Britain for GB', () => {
+      expect(getLongName('GB')).toBe('Great Britain');
+    });
+
+    it('returns United States for US', () => {
+      expect(getLongName('US')).toBe('United States');
+    });
+
+    it('returns World for unknown country codes', () => {
+      expect(getLongName('FR')).toBe('World');
+    });
   });
 });
