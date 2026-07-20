@@ -46,7 +46,7 @@
     "i18next-browser-languagedetector": "^7.2.2",
     "lodash": "^4.18.1",
     "nth-check": "^2.1.1",
-    "postcss": "^8.5.19",
+    "postcss": "^8.5.20",
     "prettier": "^3.9.5",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
